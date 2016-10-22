@@ -13,10 +13,10 @@
 ; Title ............: Process UDF.
 ; AutoIt Version ...: 3.3.14.1
 ; Description ......: UDF for AutoIt which contains useful functions which can be used to interact with processes in windows!
-; Author(s) ........: Damon Harris (TheDcoder). Some code has been adopted from the AutoIt Forum!
+; Author(s) ........: Damon Harris (TheDcoder).
+; This UDF Uses ....: PslatyDS's Code          -  https://www.autoitscript.com/forum/topic/98602-run-not-runwait-with-dos-exit-code/?do=findComment&comment=720326
 ; Links ............: GitHub       - https://github.com/TheDcoder/Process-UDF-for-AutoIt/
 ;                     AutoIt Forum - https://www.autoitscript.com/forum/topic/174697-process-udf-get-both-the-output-the-exit-code
-; Important Links ..: PslatyDS's original code -  https://www.autoitscript.com/forum/topic/98602-run-not-runwait-with-dos-exit-code/?do=findComment&comment=720326
 ; ===============================================================================================================================
 
 ; #CURRENT# =====================================================================================================================

@@ -1,23 +1,3 @@
-#cs ----------------------------------------------------------------------------
-
- AutoIt Version: 3.3.14.0
- Author:         TheDcoder
-
- Script Function:
-	Template AutoIt script.
-
-#ce ----------------------------------------------------------------------------
-
-; Script Start - Add your code below here
-
-#cs -----Credits-----
-TheDcoder (me) - For code cleanup & additional functions
-PslatyDS - For _Process_GetHandle & _Process_GetExitCode, located here: https://www.autoitscript.com/forum/topic/98602-run-not-runwait-with-dos-exit-code/?do=findComment&comment=720326
-#ce -----Credits-----
-
-#AutoIt3Wrapper_Au3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7
-
-; Includes
 #include-once
 #include <AutoItConstants.au3>
 #include <ProcessConstants.au3>
@@ -27,8 +7,38 @@ PslatyDS - For _Process_GetHandle & _Process_GetExitCode, located here: https://
 #include <StringConstants.au3>
 #include <Color.au3>
 
+#AutoIt3Wrapper_Au3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7
+
+; #INDEX# =======================================================================================================================
+; Title ............: Process UDF.
+; AutoIt Version ...: 3.3.14.1
+; Description ......: UDF for AutoIt which contains useful functions which can be used to interact with processes in windows!
+; Author(s) ........: Damon Harris (TheDcoder). Some code has been adopted from the AutoIt Forum!
+; Links ............: GitHub       - https://github.com/TheDcoder/Process-UDF-for-AutoIt/
+;                     AutoIt Forum - https://www.autoitscript.com/forum/topic/174697-process-udf-get-both-the-output-the-exit-code
+; Important Links ..: PslatyDS's original code -  https://www.autoitscript.com/forum/topic/98602-run-not-runwait-with-dos-exit-code/?do=findComment&comment=720326
+; ===============================================================================================================================
+
+; #CURRENT# =====================================================================================================================
+; _Process_RunCommand
+; _Process_WaitUntil
+; _Process_GetPID
+; _Process_GetPath
+; _Process_GetHandle
+; _Process_CloseHandle
+; _Process_GetExitCode
+; _Process_DebugRunCommand
+; ===============================================================================================================================
+
+; #INTERNAL_USE_ONLY# ===========================================================================================================
+; __Process_WM_SIZE
+; ===============================================================================================================================
+
+; #CONSTANTS# ===================================================================================================================
 Global Const $PROCESS_RUN = 2, $PROCESS_RUNWAIT = 4, $PROCESS_EXIST = 8, $PROCESS_NOTEXIST = 16, $PROCESS_DEBUG = 32
+
 Global Const $PROCESS_COMMAND = @ComSpec & " /c " ; Use this in RunCommand function to run commands
+; ===============================================================================================================================
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Process_RunCommand

@@ -6,6 +6,7 @@
 #include <GuiRichEdit.au3>
 #include <StringConstants.au3>
 #include <Color.au3>
+#include "IsMgcNumPresent.au3"
 
 #AutoIt3Wrapper_Au3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7
 
@@ -15,6 +16,7 @@
 ; Description ......: UDF for AutoIt which contains useful functions which can be used to interact with processes in windows!
 ; Author(s) ........: Damon Harris (TheDcoder).
 ; This UDF Uses ....: PslatyDS's Code          -  https://www.autoitscript.com/forum/topic/98602-run-not-runwait-with-dos-exit-code/?do=findComment&comment=720326
+;                     Is Magic Number Present? - https://git.io/vPFjk
 ; Links ............: GitHub       - https://github.com/TheDcoder/Process-UDF-for-AutoIt/
 ;                     AutoIt Forum - https://www.autoitscript.com/forum/topic/174697-process-udf-get-both-the-output-the-exit-code
 ; ===============================================================================================================================

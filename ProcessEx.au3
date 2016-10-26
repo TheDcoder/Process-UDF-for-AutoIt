@@ -107,10 +107,10 @@ EndFunc
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Process_WaitUntil
 ; Description ...: Waits until a process starts or quits. Also returns the exit code...
-; Syntax ........: _Process_WaitUntil($iMode, $vProcess [, $iUpdateInterval = 250])
+; Syntax ........: _Process_WaitUntil($iMode, $vProcess [, $iUpdateInterval = 10])
 ; Parameters ....: $iMode               - Mode in which this function should operate, See Remarks.
 ;                  $vProcess            - The PID or Name of the process, Same as ProcessExist's "process" parameter.
-;                  $iUpdateInterval     - [optional] The time (in milliseconds) to wait before performing another check. Default is 250.
+;                  $iUpdateInterval     - [optional] The time (in milliseconds) to wait before performing another check. Default is 10.
 ; Return values .: Success: True and sets @extended to the exit code if the mode is $PROCESS_NOTEXIST
 ;                  Failure: False
 ;                  Special: 0(See Remarks)
@@ -125,7 +125,7 @@ EndFunc
 ; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
-Func _Process_WaitUntil($iMode, $vProcess, $iUpdateInterval = 250)
+Func _Process_WaitUntil($iMode, $vProcess, $iUpdateInterval = 10)
 	If $iMode = $PROCESS_NOTEXIST And Not IsInt($vProcess) Then ; If it is in $PROCESS_NOTEXIST mode & not an PID
 		$vProcess = _Process_GetPID($vProcess) ; Get the PID
 		If @error Then Return 0 ; Return Immediatly

@@ -70,16 +70,17 @@ Global Const $PROCESS_COMMAND = @ComSpec & " /c " ; Use this in RunCommand funct
 Func _Process_RunCommand($iMode, $sExecutable, $sWorkingDir = "", $iRunOptFlag = $STDERR_MERGED)
 	Local $iExitCode = 0 ; Declare the exit code variable before hand
 	Local $sOutput = "" ; Declare the output variable before hand
-	Local $bDebug = False ; Declare the debug variable before hand
-	If BitAND($iMode, $PROCESS_DEBUG) Then $bDebug = True
-	If BitAND($iMode, $PROCESS_RUN) Then
-		$iMode = $PROCESS_RUN
-	ElseIf BitAND($iMode, $PROCESS_RUNWAIT) Then
-		$iMode = $PROCESS_RUNWAIT
-	Else
-		Return SetError(1, 0, False)
-	EndIf
-	; If Not $iMode = $PROCESS_RUN Or Not $iMode = $PROCESS_RUNWAIT Then Return SetError(1, 0, False) ; If the mode is invalid...
+	Local $bDebug = IsMgcNumPresent($PROCESS_DEBUG, $iMode) ; Check if $PROCESS_DEBUG is present.
+	Select ; Select...
+		Case IsMgcNumPresent($PROCESS_RUN, $iMode) ; If the mode is $PROCESS_RUN
+			$iMode = $PROCESS_RUN
+
+		Case IsMgcNumPresent($PROCESS_RUNWAIT, $iMode) ; If the mode is $PROCESS_RUNWAIT
+			$iMode = $PROCESS_RUNWAIT
+
+		Case Else
+			Return SetError(1, 0, False) ; If the mode is invalid...
+	EndSelect
 	Local $iPID = Run($sExecutable, $sWorkingDir, @SW_HIDE, $iRunOptFlag) ; Run!!! :P
 	If @error Then Return SetError(2, 0, False) ; If the command is invalid...
 	Local $hProcessHandle = _Process_GetHandle($iPID) ; Get the handle of the process
@@ -92,7 +93,7 @@ Func _Process_RunCommand($iMode, $sExecutable, $sWorkingDir = "", $iRunOptFlag =
 	If Not $bDebug Then
 		While ProcessExists($iPID)
 			$sOutput &= StdoutRead($iPID) ; Capture the output
-			Sleep(250) ; Don't kill the CPU
+			Sleep(10) ; Don't kill the CPU
 		WEnd
 		$sOutput &= StdoutRead($iPID) ; Capture any remaining output
 		$iExitCode = _Process_GetExitCode($hProcessHandle) ; Note the exit code

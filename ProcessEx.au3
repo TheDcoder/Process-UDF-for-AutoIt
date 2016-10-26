@@ -186,7 +186,11 @@ EndFunc
 Func _Process_GetPath($vProcess)
 	Local Const $eiCharsToTrim = 12
 	If Not IsInt($vProcess) Then $vProcess = _Process_GetPID($vProcess) ; Convert process name to PID
-	Local $sOutput = _Process_RunCommand($PROCESS_RUNWAIT, 'wmic process where "' & "processid='" & $vProcess & "'" & '" ' & "get commandline /format:list") ; Crippled command...
+	Local $sCommandline = "wmic" ; Declare the commandline string
+	$sCommandline &= ' process'
+	$sCommandline &= ' where "' & "processid='" & $vProcess & "'" & '"'
+	$sCommandline &= ' get commandline /format:list'
+	Local $sOutput = _Process_RunCommand($PROCESS_RUNWAIT, $sCommandline) ; Run the command...
 	; Thanks to rojo for this command at stackowerflow: http://stackoverflow.com/a/32609300/3815591
 	$sOutput = StringStripWS($sOutput, $STR_STRIPLEADING + $STR_STRIPTRAILING) ; Remove whitespaces attached to the string
 	If $sOutput = "No Instance(s) Available." Then Return SetError(1, 0, False) ; If process was not found...

@@ -201,9 +201,9 @@ EndFunc
 ; ===============================================================================================================================
 Func _Process_GetHandle($vProcess)
 	If Not IsInt($vProcess) Then $vProcess = _Process_GetPID($vProcess) ; Get the PID of the process if its not a PID ;)
-    Local $avRET = DllCall("kernel32.dll", "ptr", "OpenProcess", "int", $PROCESS_QUERY_INFORMATION, "int", 0, "int", $vProcess) ; Get the process handle
-    If @error Then Return SetError(1, 0, 0) ; If the process does not exists...
-    Return $avRET[0] ; Return handle
+	Local $avRET = DllCall("kernel32.dll", "ptr", "OpenProcess", "int", $PROCESS_QUERY_INFORMATION, "int", 0, "int", $vProcess) ; Get the process handle
+	If @error Then Return SetError(1, 0, 0) ; If the process does not exists...
+	Return $avRET[0] ; Return handle
 EndFunc
 
 ; #FUNCTION# ====================================================================================================================
@@ -218,9 +218,9 @@ EndFunc
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_CloseHandle($hProcessHandle)
-    DllCall("kernel32.dll", "int", "CloseHandle", "ptr", $hProcessHandle) ; Close the handle
-    If @error Then Return SetError(@error, 0, False) ; If invalid handle...
-    Return True ; Return True if success
+	DllCall("kernel32.dll", "int", "CloseHandle", "ptr", $hProcessHandle) ; Close the handle
+	If @error Then Return SetError(@error, 0, False) ; If invalid handle...
+	Return True ; Return True if success
 EndFunc
 
 ; #FUNCTION# ====================================================================================================================
@@ -295,11 +295,11 @@ Func _Process_DebugRunCommand($hProcessHandle, $iPID, $sGuiTitle = "Command Prom
 EndFunc
 
 Func __Process_WM_SIZE($hWnd, $iMsg, $wParam, $lParam)
-    Local $iWidth = _WinAPI_LoWord($lParam)
-    Local $iHeight = _WinAPI_HiWord($lParam)
+	Local $iWidth = _WinAPI_LoWord($lParam)
+	Local $iHeight = _WinAPI_HiWord($lParam)
 
-    _WinAPI_MoveWindow($g__hEdit, 2, 2, $iWidth - 4, $iHeight - 4)
+	_WinAPI_MoveWindow($g__hEdit, 2, 2, $iWidth - 4, $iHeight - 4)
 
-    Return 0
+	Return 0
 	#forceref $hWnd, $iMsg, $wParam
 EndFunc   ; Thanks Mat :)

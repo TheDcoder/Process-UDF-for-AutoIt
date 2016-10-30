@@ -1,9 +1,10 @@
 #include-once
 #include <AutoItConstants.au3>
+#include <ColorConstants.au3>
 #include <ProcessConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
-#include <GuiRichEdit.au3>
+#include <GuiEdit.au3>
 #include <StringConstants.au3>
 #include <Color.au3>
 #include "IsMgcNumPresent.au3"
@@ -267,9 +268,10 @@ EndFunc
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Process_DebugRunCommand
 ; Description ...: Debugs a command in CMD style, see the example.
-; Syntax ........: _Process_DebugRunCommand($hProcessHandle, $iPID)
+; Syntax ........: _Process_DebugRunCommand($hProcessHandle, $iPID[, $sGuiTitle = "Command Prompt Simulator"])
 ; Parameters ....: $hProcessHandle      - The Process Handle.
 ;                  $iPID                - The PID of the Process.
+;                  $sGuiTitle           - [optional] The title of the Debug window. Default is "Command Prompt Simulator".
 ; Return values .: Success: Will return the output & @extended will contain the exit code for the function
 ;                  Failure: N/A
 ; Author ........: TheDcoder
@@ -279,41 +281,37 @@ EndFunc
 ; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: Yes, see example.au3
 ; ===============================================================================================================================
-Func _Process_DebugRunCommand($hProcessHandle, $iPID)
-	Local $aGrayCmdColor[3] = [197, 197, 197] ; Gray Color's combination in RGB
-	Local $iGrayCmdColor = _ColorSetCOLORREF($aGrayCmdColor) ; Get the COLORREF code of Gray Color
-	Local $hGUI = GUICreate("Command Prompt Simulator", 639, 299, -1, -1, $WS_OVERLAPPEDWINDOW) ; Create the GUI
-	Global $g__Process_hRichEdit = _GUICtrlRichEdit_Create($hGUI, "", 0, 0, 639, 299, BitOR($WS_HSCROLL, $WS_VSCROLL, $ES_MULTILINE, $ES_READONLY, $ES_AUTOVSCROLL)) ; Create the RichEdit :)
-	_GUICtrlRichEdit_SetBkColor($g__Process_hRichEdit, 0x000000) ; Set the background
+Func _Process_DebugRunCommand($hProcessHandle, $iPID, $sGuiTitle = "Command Prompt Simulator")
+	Local $aGrayCmdColor[3] = [197, 197, 197] ; CMD Text Color's combination in RGB
+	Local Const $iGrayCmdColor = _ColorSetRGB($aGrayCmdColor) ; Get the RGB code of CMD Text Color
+	Local $hGUI = GUICreate($sGuiTitle, 639, 299, -1, -1, $WS_OVERLAPPEDWINDOW) ; Create the GUI
+	Local $idEdit = GUICtrlCreateEdit("", 0, 0, 639, 299, BitOR($WS_HSCROLL, $WS_VSCROLL, $ES_MULTILINE, $ES_READONLY, $ES_AUTOVSCROLL), 0) ; Create the Edit control :)
+	Global $g__hEdit = GUICtrlGetHandle($idEdit) ; Get the edit control's handle
+	GUICtrlSetBkColor($idEdit, $COLOR_BLACK) ; Set the background color
+	GUICtrlSetColor($idEdit, $iGrayCmdColor) ; Set the text color
+	GUICtrlSetFont($idEdit, 8, 0, 0, "Fixedsys")
 	GUIRegisterMsg($WM_SIZE, "__Process_WM_SIZE") ; Register the resizing function
 	GUISetState(@SW_SHOW, $hGUI) ; Reveal the GUI
-	_GUICtrlRichEdit_AppendText($g__Process_hRichEdit, "The Process: " & _Process_GetPath($iPID) & @CRLF) ; Append the process information
+	_GUICtrlEdit_AppendText($g__hEdit, "The Process: " & _Process_GetPath($iPID) & @CRLF) ; Append the process information
 	Local $sOutput = "", $sPartialOutput = "" ; Declare the output variable
 	While ProcessExists($iPID) ; Loop until the process finishes
 		$sPartialOutput = StdoutRead($iPID) ; Record the output
 		$sOutput &= $sPartialOutput
-		_GUICtrlRichEdit_AppendText($g__Process_hRichEdit, $sPartialOutput) ; Append the output
-		_GUICtrlRichEdit_SetSel($g__Process_hRichEdit, 0, -1, True) ; Select all the text
-		_GUICtrlRichEdit_SetFont($g__Process_hRichEdit, Default, "Fixedsys") ; Set the font
-		_GUICtrlRichEdit_SetCharColor($g__Process_hRichEdit, $iGrayCmdColor) ; Set the font color
+		_GUICtrlEdit_AppendText($g__hEdit, $sPartialOutput) ; Append the output
 		Sleep(250) ; Don't kill the CPU
 	WEnd
 	$sPartialOutput = StdoutRead($iPID) ; Record the output
 	$sOutput &= $sPartialOutput
-	_GUICtrlRichEdit_AppendText($g__Process_hRichEdit, $sPartialOutput) ; Append any remaining chunks of output
+	_GUICtrlEdit_AppendText($g__hEdit, $sPartialOutput) ; Append any remaining chunks of output
 	Local $iExitCode = _Process_GetExitCode($hProcessHandle)
-	_GUICtrlRichEdit_AppendText($g__Process_hRichEdit, @CRLF & @CRLF & "Debug Complete! The Exit Code was: " & $iExitCode) ; Display the exit code
+	_GUICtrlEdit_AppendText($g__hEdit, @CRLF & @CRLF & "Debug Complete! The Exit Code was: " & $iExitCode) ; Display the exit code
 	; Same steps as in the above loop
-	_GUICtrlRichEdit_SetSel($g__Process_hRichEdit, 0, -1, True)
-	_GUICtrlRichEdit_SetFont($g__Process_hRichEdit, Default, "Fixedsys")
-	_GUICtrlRichEdit_SetCharColor($g__Process_hRichEdit, $iGrayCmdColor)
 	Local $nMsg = 0
 	While 1 ; Wait for user to close the window
 		$nMsg = GUIGetMsg()
 		Switch $nMsg
 			Case $GUI_EVENT_CLOSE
 				ExitLoop
-
 		EndSwitch
 	WEnd
 	GUIDelete($hGUI) ; Delete the GUI
@@ -324,7 +322,8 @@ Func __Process_WM_SIZE($hWnd, $iMsg, $wParam, $lParam)
     Local $iWidth = _WinAPI_LoWord($lParam)
     Local $iHeight = _WinAPI_HiWord($lParam)
 
-    _WinAPI_MoveWindow($g__Process_hRichEdit, 2, 2, $iWidth - 4, $iHeight - 4)
+    _WinAPI_MoveWindow($g__hEdit, 2, 2, $iWidth - 4, $iHeight - 4)
 
     Return 0
+	#forceref $hWnd, $iMsg, $wParam
 EndFunc   ; Thanks Mat :)

@@ -1,12 +1,12 @@
 #include-once
 #include <AutoItConstants.au3>
-#include <ColorConstants.au3>
-#include <ProcessConstants.au3>
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <GuiEdit.au3>
-#include <StringConstants.au3>
 #include <Color.au3>
+#include <ColorConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <GuiEdit.au3>
+#include <ProcessConstants.au3>
+#include <StringConstants.au3>
+#include <WindowsConstants.au3>
 #include "IsMgcNumPresent.au3"
 
 #AutoIt3Wrapper_Au3Check_Parameters=-q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7

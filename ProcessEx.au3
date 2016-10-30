@@ -57,7 +57,6 @@ Global Const $PROCESS_COMMAND = @ComSpec & " /c " ; Use this in RunCommand funct
 ;                           1 - If the $iMode flag is invalid
 ;                           2 - If the command is invalid
 ; Author ........: TheDcoder
-; Modified ......: N/A
 ; Remarks .......: 1. The ONLY valid modes are: $PROCESS_RUN & $PROCESS_RUNWAIT
 ;                     $PROCESS_RUN     : Will act similarly to Run function, See Return values
 ;                     $PROCESS_RUNWAIT : Will act similarly to RunWait function, See Return values
@@ -65,7 +64,6 @@ Global Const $PROCESS_COMMAND = @ComSpec & " /c " ; Use this in RunCommand funct
 ;                  2. Use $PROCESS_COMMAND to run commands like this: $PROCESS_COMMAND & "ping 127.0.0.1"
 ;                  3. Add $PROCESS_DEBUG to $iMode to automagically debug the command, $PROCESS_RUN is equivalent to $PROCESS_RUNWAIT in this case
 ; Related .......: Run, RunWait
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: Yes, see example.au3
 ; ===============================================================================================================================; Functions
 Func _Process_RunCommand($iMode, $sExecutable, $sWorkingDir = "", $iRunOptFlag = $STDERR_MERGED)
@@ -116,14 +114,11 @@ EndFunc
 ;                  Failure: False
 ;                  Special: 0(See Remarks)
 ; Author ........: TheDcoder
-; Modified ......: N/A
 ; Remarks .......: 1. There are only 2 valid modes:
 ;                     $PROCESS_EXIST    : Waits until a process starts.
 ;                     $PROCESS_NOTEXIST : Waits until a process quits.
 ;                  2. 0 is returned when unable to retrive the PID of the process when in $PROCESS_NOTEXIST as the mode,
 ;                     There is an good chance that the process has already quit before the function starts checking.
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_WaitUntil($iMode, $vProcess, $iUpdateInterval = 10)
@@ -158,10 +153,7 @@ EndFunc
 ; Return values .: Success: The PID of the process
 ;                  Failure: False & sets @error to non-zero
 ; Author ........: TheDcoder
-; Modified ......: N/A
 ; Remarks .......: If multiple processes exist then the most recent process's PID is returned.
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_GetPID($sProcess)
@@ -178,10 +170,7 @@ EndFunc
 ; Return values .: Success: The path of process with its arguments
 ;                  Failure: False & sets @error to 1
 ; Author ........: TheDcoder
-; Modified ......: N/A
 ; Remarks .......: The return value is in this format: X:\Process.exe -Argument1 -ArgumentN...
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_GetPath($vProcess)
@@ -208,9 +197,6 @@ EndFunc
 ;                  Failure: 0 & Sets @error to non-zero
 ; Author ........: PsaltyDS
 ; Modified ......: TheDcoder: Comments, "If...Else...EndIf" to "If...Then", Return value for failure & Name of the function
-; Remarks .......: None.
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_GetHandle($vProcess)
@@ -229,9 +215,6 @@ EndFunc
 ;                  Failure: False & sets @error to non-zero
 ; Author ........: PsaltyDS
 ; Modified ......: TheDcoder: Comments, "If...Else...EndIf" to "If...Then", Return values & Name of the function
-; Remarks .......: None.
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_CloseHandle($hProcessHandle)
@@ -250,8 +233,6 @@ EndFunc
 ; Author ........: PsaltyDS
 ; Modified ......: TheDcoder: Comments & Name of the function
 ; Remarks .......: This will INVALIDATE the Process Handle!!!
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: No
 ; ===============================================================================================================================
 Func _Process_GetExitCode($hProcessHandle)
@@ -277,8 +258,6 @@ EndFunc
 ; Author ........: TheDcoder
 ; Modified ......: N/A
 ; Remarks .......: Make sure that the Process Handle & the PID are of the same process, otherwise you get the wrong exit code :P
-; Related .......: None.
-; Link ..........: http://bit.ly/ProcessUdfForAutoIt
 ; Example .......: Yes, see example.au3
 ; ===============================================================================================================================
 Func _Process_DebugRunCommand($hProcessHandle, $iPID, $sGuiTitle = "Command Prompt Simulator")

@@ -226,24 +226,21 @@ EndFunc
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Process_GetExitCode
 ; Description ...: Gets the exit code of a process
-; Syntax ........: _Process_GetExitCode($hProcessHandle)
+; Syntax ........: _Process_GetExitCode($hProcessHandle[, $bCloseHandle = True])
 ; Parameters ....: $hProcessHandle      - A Process Handle.
+;                  $bCloseHandle        - [optional] Do you want to close the $hProcessHandle?. Default is True.
 ; Return values .: Success: Exit Code
 ;                  Failure: Returns 0 & sets @error to non-zero
 ; Author ........: PsaltyDS
 ; Modified ......: TheDcoder: Comments & Name of the function
-; Remarks .......: This will INVALIDATE the Process Handle!!!
 ; Example .......: No
 ; ===============================================================================================================================
-Func _Process_GetExitCode($hProcessHandle)
-    Local $t_ExitCode = DllStructCreate("int") ; Its the container for the exit code
-    DllCall("kernel32.dll", "int", "GetExitCodeProcess", "ptr", $hProcessHandle, "ptr", DllStructGetPtr($t_ExitCode)) ; Store the exit code in the container
-    If @error Then ; If invalid Process Handle...
-        Return SetError(1, 0, 0)
-    Else
-		_Process_CloseHandle($hProcessHandle)
-        Return DllStructGetData($t_ExitCode, 1) ; Return exit code from the container
-    EndIf
+Func _Process_GetExitCode($hProcessHandle, $bCloseHandle = True)
+	Local $t_ExitCode = DllStructCreate("int") ; Its the container for the exit code
+	DllCall("kernel32.dll", "int", "GetExitCodeProcess", "ptr", $hProcessHandle, "ptr", DllStructGetPtr($t_ExitCode)) ; Store the exit code in the container
+	If @error Then Return SetError(1, 0, 0) ; If it is a invalid $hProcessHandle then return error
+	If $bCloseHandle Then _Process_CloseHandle($hProcessHandle) ; Close the $hProcessHandle
+	Return DllStructGetData($t_ExitCode, 1) ; Return exit code from the container
 EndFunc
 
 ; #FUNCTION# ====================================================================================================================
